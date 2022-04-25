@@ -1,0 +1,41 @@
+.form__input {
+  width: 100%;
+  height: 30px;
+  font-size: 16px;
+  line-height: calc(19 / 16);
+  padding-left: 12px;
+  box-sizing: border-box;
+  &-block {
+    display: flex;
+    align-items: center;
+  }
+  &-container {
+    position: relative;
+
+    max-width: 336px;
+    width: 100%;
+  }
+  &-title {
+    max-width: 188px;
+    width: 100%;
+    margin: 0;
+    font-size: 21px;
+    line-height: calc(19 / 21);
+  }
+  &-error {
+    position: absolute;
+    bottom: -18px;
+    left: 0;
+    color: red;
+    font-size: 12px;
+    height: 12px;
+    line-height: 1.25;
+    margin-top: 5px;
+    transition: opacity 0.3s;
+  }
+  &-info {
+    max-width: 339px;
+    width: 100%;
+    margin: 0;
+  }
+}

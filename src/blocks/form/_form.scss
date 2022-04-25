@@ -1,7 +1,9 @@
 .form {
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding: 90px 100px 0 100px;
+  box-sizing: border-box;
   &__header {
     position: relative;
     display: flex;
@@ -45,28 +47,29 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    &:nth-child(1n) {
+    width: 100%;
+    padding-bottom: 40px;
+    padding-top: 30px;
+    gap: 40px;
+    &:nth-child(n + 1) {
       &:after {
         content: '';
         position: absolute;
         width: 100%;
         height: 1px;
         bottom: 0;
-        border: 1px solid #e5e4e4;
+        background-color: #e5e4e4;
       }
     }
-  }
-  &__input-container {
-    display: flex;
-    width: 560px;
-    justify-content: space-between;
-  }
-  &__input {
-    width: 336px;
-    height: 31px;
-    box-sizing: border-box;
-    &-title {
-      margin: 0;
+    &:nth-last-child(1) {
+      &:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 0;
+        bottom: 0;
+        background-color: #e5e4e4;
+      }
     }
   }
 }

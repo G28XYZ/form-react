@@ -1,4 +1,5 @@
 import React from 'react';
+import Input from './Input';
 
 export default function App() {
   return (
@@ -14,72 +15,78 @@ export default function App() {
           </div>
         </div>
         <div className="form__inputs">
-          <div className="form__input-block">
-            <h2 className="form__input-title">Ваш город</h2>
-            <div className="form__input-container">
-              <input type="text" className="form__input form__input-dropdown" />
-              <span className="form__input-error">123</span>
-            </div>
-          </div>
-          <div className="form__input-block">
-            <h2 className="form__input-title">Ваш университет</h2>
-            <div className="form__input-container">
-              <input type="text" className="form__input form__input-dropdown" />
-              <span className="form__input-error">123</span>
-            </div>
-          </div>
+          <Input
+            title="Ваш город"
+            type="form__input-dropdown"
+            withError={false}
+            textInfo=""
+          >
+            <input type="text" className="form__input" disabled />
+          </Input>
+          <Input
+            title="Ваш университет"
+            type="form__input-dropdown"
+            withError={false}
+            textInfo=""
+          >
+            <input type="text" className="form__input" disabled />
+          </Input>
         </div>
 
         <div className="form__inputs">
-          <div className="form__input-block">
-            <h2 className="form__input-title">Пароль</h2>
-            <div className="form__input-container">
-              <input type="text" className="form__input" />
-              <span className="form__input-error">123</span>
-            </div>
-            <p className="form__input-info text-info">
-              Ваш новый пароль должен содержать не менее 5 символов.
-            </p>
-          </div>
-          <div className="form__input-block">
-            <h2 className="form__input-title">Пароль еще раз</h2>
-            <div className="form__input-container">
-              <input type="text" className="form__input" />
-              <span className="form__input-error">123</span>
-            </div>
-            <p className="form__input-info text-info">
-              Повторите пароль, пожалуйста, это обезопасит вас с нами на случай
-              ошибки.
-            </p>
-          </div>
+          <Input
+            title="Пароль"
+            type=""
+            withError
+            textInfo="Ваш новый пароль должен содержать не менее 5 символов."
+          >
+            <input type="text" className="form__input" />
+          </Input>
+          <Input
+            title="Пароль еще раз"
+            type=""
+            withError
+            textInfo="Повторите пароль, пожалуйста, это обезопасит вас с нами на случай
+            ошибки."
+          >
+            <input type="text" className="form__input" />
+          </Input>
         </div>
 
         <div className="form__inputs">
-          <div className="form__input-block">
-            <h2 className="form__input-title">Электронная почта</h2>
-            <div className="form__input-container">
-              <input type="text" className="form__input" />
-              <span className="form__input-error">123</span>
-            </div>
-            <p className="form__input-info text-info">
-              Можно изменить адрес, указанный при регистрации.
-            </p>
-          </div>
-          <div className="form__input-block">
-            <h2 className="form__input-title">Я согласен</h2>
-            <div className="form__input-container form__input-container_checkbox">
-              <input
-                type="checkbox"
-                id="checkbox"
-                className="form__input form__input-checkbox"
-              />
-              <label htmlFor="checkbox">
-                принимать актуальную информацию на емейл
-              </label>
-            </div>
-          </div>
+          <Input
+            title="Электронная почта"
+            type=""
+            withError
+            textInfo="Можно изменить адрес, указанный при регистрации."
+          >
+            <input type="text" className="form__input" />
+          </Input>
+
+          <Input
+            title="Я согласен"
+            type="checkbox"
+            withError={false}
+            textInfo=""
+          >
+            <input
+              type="checkbox"
+              id="checkbox"
+              className="form__input form__input-checkbox"
+            />
+            <label htmlFor="checkbox">
+              принимать актуальную информацию на емейл
+            </label>
+          </Input>
         </div>
-        <button className="form__submit">Изменить</button>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <button className="form__submit" onClick={() => ''}>
+            Изменить
+          </button>
+          <p className="text-info">
+            последние изменения 15 мая 2012 в 14:55:17
+          </p>
+        </div>
       </form>
     </section>
   );

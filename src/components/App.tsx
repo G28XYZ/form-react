@@ -1,12 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Input from './Input';
 
 export default function App() {
+  const [date, setDate] = useState(new Date(2015, 2, 15, 14, 55, 17));
+  const [user, setUser] = useState('Человек №3596941');
+  const [checkInfo, setCheckInfo] = useState(true);
+
+  const [stateInputs, setStateInputs] = useState({
+    password: { error: '', value: '' },
+    passwordConfirm: { error: '', value: '' },
+    email: { error: '', value: '' },
+  });
+
+  function handleChangeEmail(e: any) {
+    setStateInputs({
+      ...stateInputs,
+      [e.target.name]: {
+        error: e.target.validationMessage,
+        value: e.target.value,
+      },
+    });
+  }
+
+  function handleChangePassword(e: any) {
+    setStateInputs({
+      ...stateInputs,
+      [e.target.name]: {
+        error: e.target.validationMessage,
+        value: e.target.value,
+      },
+    });
+  }
+
   return (
     <section className="form">
       <form className="form__container">
         <div className="form__header">
-          <h1 className="form__header-title">Здравствуйте, Человек №3596941</h1>
+          <h1 className="form__header-title">{`Здравствуйте, ${user}`}</h1>
           <div className="form__header-status">Сменить статус</div>
           <div className="form__header-tooltip">
             <p style={{ margin: 0, alignSelf: 'center' }}>
@@ -17,62 +47,87 @@ export default function App() {
         <div className="form__inputs">
           <Input
             title="Ваш город"
-            type="form__input-dropdown"
-            withError={false}
+            selector="form__input-dropdown"
+            error=""
             textInfo=""
           >
-            <input type="text" className="form__input" disabled />
+            <input name="city" type="text" className="form__input" disabled />
           </Input>
           <Input
             title="Ваш университет"
-            type="form__input-dropdown"
-            withError={false}
+            selector="form__input-dropdown"
+            error=""
             textInfo=""
           >
-            <input type="text" className="form__input" disabled />
+            <input
+              name="university"
+              type="text"
+              className="form__input"
+              disabled
+            />
           </Input>
         </div>
 
         <div className="form__inputs">
           <Input
             title="Пароль"
-            type=""
-            withError
+            selector=""
+            error={stateInputs.password.error}
             textInfo="Ваш новый пароль должен содержать не менее 5 символов."
           >
-            <input type="text" className="form__input" />
+            <input
+              name="password"
+              type="password"
+              className="form__input"
+              required
+              onChange={handleChangePassword}
+            />
           </Input>
           <Input
             title="Пароль еще раз"
-            type=""
-            withError
+            selector=""
+            error={stateInputs.passwordConfirm.error}
             textInfo="Повторите пароль, пожалуйста, это обезопасит вас с нами на случай
             ошибки."
           >
-            <input type="text" className="form__input" />
+            <input
+              name="passwordConfirm"
+              type="password"
+              className="form__input"
+              required
+              onChange={handleChangePassword}
+            />
           </Input>
         </div>
 
         <div className="form__inputs">
           <Input
             title="Электронная почта"
-            type=""
-            withError
+            selector=""
+            error={stateInputs.email.error}
             textInfo="Можно изменить адрес, указанный при регистрации."
           >
-            <input type="text" className="form__input" />
+            <input
+              name="email"
+              type="text"
+              className="form__input"
+              onChange={handleChangeEmail}
+              required
+            />
           </Input>
 
           <Input
             title="Я согласен"
-            type="checkbox"
-            withError={false}
+            selector="form__input-container_checkbox"
+            error=""
             textInfo=""
           >
             <input
               type="checkbox"
               id="checkbox"
               className="form__input form__input-checkbox"
+              checked={checkInfo}
+              onChange={() => setCheckInfo(!checkInfo)}
             />
             <label htmlFor="checkbox">
               принимать актуальную информацию на емейл
@@ -83,8 +138,8 @@ export default function App() {
           <button className="form__submit" onClick={() => ''}>
             Изменить
           </button>
-          <p className="text-info">
-            последние изменения 15 мая 2012 в 14:55:17
+          <p className="from__status-info text-info">
+            {`последние изменения ${date}`}
           </p>
         </div>
       </form>

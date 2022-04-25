@@ -1,18 +1,39 @@
 {
-  "env": {
-    "browser": true
-  },
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   "parser": "@typescript-eslint/parser",
-  "parserOptions": { "project": ["./tsconfig.json"] },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"]
+    }
+  ],
+  "extends": ["airbnb", "airbnb-typescript"],
+  "parserOptions": {
+    "project": ["./tsconfig.json"],
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "useJSXTextNode": true
+  },
   "plugins": ["@typescript-eslint"],
   "rules": {
-    "@typescript-eslint/strict-boolean-expressions": [
-      2,
+    "linebreak-style": ["error", "windows"],
+    "import/no-extraneous-dependencies": [
+      "error",
+      { "peerDependencies": true }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
       {
-        "allowString": false,
-        "allowNumber": false
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
       }
-    ]
+    ],
+    "import/no-unresolved": [2, { "caseSensitive": false }]
   }
 }

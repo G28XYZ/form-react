@@ -10,7 +10,7 @@ module.exports = {
   devServer: {
     static: path.resolve(__dirname, "./public"),
     compress: true,
-    port: 5050,
+    port: 8080,
     open: false,
   },
   output: {

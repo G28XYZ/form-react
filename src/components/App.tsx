@@ -67,11 +67,15 @@ export default function App() {
           </div>
           <div className="form__input-block">
             <h2 className="form__input-title">Я согласен</h2>
-            <div className="form__input-container">
+            <div className="form__input-container form__input-container_checkbox">
               <input
                 type="checkbox"
+                id="checkbox"
                 className="form__input form__input-checkbox"
               />
+              <label htmlFor="checkbox">
+                принимать актуальную информацию на емейл
+              </label>
             </div>
           </div>
         </div>

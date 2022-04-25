@@ -11,15 +11,21 @@
   }
   &-container {
     position: relative;
-
     max-width: 336px;
     width: 100%;
+    &_checkbox {
+      display: flex;
+      max-width: max-content;
+      align-items: center;
+      gap: 10px;
+    }
   }
   &-title {
     max-width: 188px;
     width: 100%;
     margin: 0;
     font-size: 21px;
+    padding-right: 36px;
     line-height: calc(19 / 21);
   }
   &-error {
@@ -37,5 +43,9 @@
     max-width: 339px;
     width: 100%;
     margin: 0;
+  }
+  &-checkbox {
+    align-self: start;
+    width: max-content;
   }
 }

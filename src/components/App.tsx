@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import Header from './Header';
-import Input from './Input';
+import Places from './Places';
+import Email from './Email';
 
 export default function App() {
   const [date, setDate] = useState(new Date(2012, 5, 15, 14, 55, 17));
   const [user, setUser] = useState('');
   const [checkInfo, setCheckInfo] = useState(true);
-
-  useEffect(() => {
-    setUser('Человек №3596941');
-  }, []);
-
   const [stateInputs, setStateInputs] = useState({
     password: { error: '', value: '' },
     passwordConfirm: { error: '', value: '' },
     email: { error: '', value: '' },
   });
+
+  useEffect(() => {
+    setUser('Человек №3596941');
+  }, []);
 
   function handleChangeEmail(e: any) {
     const reg = /^\S+@\S+\.\S+$/;
@@ -70,99 +70,17 @@ export default function App() {
     <section className="form">
       <form className="form__container">
         <Header user={user} />
-        <div className="form__inputs">
-          <Input
-            title="Ваш город"
-            selector="form__input-dropdown"
-            error=""
-            textInfo=""
-          >
-            <input name="city" type="text" className="form__input" disabled />
-          </Input>
-          <Input
-            title="Ваш университет"
-            selector="form__input-dropdown"
-            error=""
-            textInfo=""
-          >
-            <input
-              name="university"
-              type="text"
-              className="form__input"
-              disabled
-            />
-          </Input>
-        </div>
+        <Places
+          stateInputs={stateInputs}
+          handleConfirmPassword={handleConfirmPassword}
+          handleChangePassword={handleChangePassword}
+        />
+        <Email
+          stateInput={stateInputs}
+          checkInfo={checkInfo}
+          handleChangeEmail={handleChangeEmail}
+        />
 
-        <div className="form__inputs">
-          <Input
-            title="Пароль"
-            selector=""
-            error={stateInputs.password.error}
-            textInfo="Ваш новый пароль должен содержать не менее 5 символов."
-          >
-            <input
-              name="password"
-              type="password"
-              minLength={5}
-              className="form__input"
-              required
-              onChange={handleChangePassword}
-              value={stateInputs.password.value}
-            />
-          </Input>
-          <Input
-            title="Пароль еще раз"
-            selector=""
-            error={stateInputs.passwordConfirm.error}
-            textInfo="Повторите пароль, пожалуйста, это обезопасит вас с нами на случай
-            ошибки."
-          >
-            <input
-              name="passwordConfirm"
-              type="password"
-              className="form__input"
-              required
-              onChange={handleConfirmPassword}
-              value={stateInputs.passwordConfirm.value}
-            />
-          </Input>
-        </div>
-
-        <div className="form__inputs">
-          <Input
-            title="Электронная почта"
-            selector=""
-            error={stateInputs.email.error}
-            textInfo="Можно изменить адрес, указанный при регистрации."
-          >
-            <input
-              name="email"
-              type="text"
-              className="form__input"
-              onChange={handleChangeEmail}
-              required
-            />
-          </Input>
-
-          <Input
-            title="Я согласен"
-            selector="form__input-container_checkbox"
-            error=""
-            textInfo=""
-          >
-            <label htmlFor="checkbox" className="form__input-label">
-              <input
-                type="checkbox"
-                id="checkbox"
-                className="form__input form__input-checkbox"
-                checked={checkInfo}
-                onChange={() => setCheckInfo(!checkInfo)}
-              />
-              принимать актуальную информацию на email
-            </label>
-          </Input>
-        </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <button type="button" className="form__submit" onClick={onSubmit}>
             Изменить

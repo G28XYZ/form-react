@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from './Input';
 
 export default function App() {
   const [date, setDate] = useState(new Date(2015, 2, 15, 14, 55, 17));
-  const [user, setUser] = useState('Человек №3596941');
+  const [user, setUser] = useState('');
   const [checkInfo, setCheckInfo] = useState(true);
+
+  useEffect(() => {
+    setUser('Человек №3596941');
+  }, []);
 
   const [stateInputs, setStateInputs] = useState({
     password: { error: '', value: '' },
@@ -13,23 +17,48 @@ export default function App() {
   });
 
   function handleChangeEmail(e: any) {
+    const reg = /^\S+@\S+\.\S+$/;
+    const error = !reg.test(e.target.value) ? 'Неверный E-mail' : '';
     setStateInputs({
       ...stateInputs,
       [e.target.name]: {
-        error: e.target.validationMessage,
+        error: (e.target.validationMessage && 'Укажите E-mail') || error,
         value: e.target.value,
       },
     });
   }
 
   function handleChangePassword(e: any) {
+    let error = e.target.value === '' ? 'Укажите пароль' : '';
+    error =
+      e.target.value.length < 5 && !error
+        ? 'Используйте не менее 5 символов'
+        : error;
     setStateInputs({
       ...stateInputs,
-      [e.target.name]: {
-        error: e.target.validationMessage,
+      password: {
         value: e.target.value,
+        error,
       },
     });
+  }
+
+  function handleConfirmPassword(e: any) {
+    const firstPass = stateInputs.password.value;
+    const secondPass = e.target.value;
+    let error = e.target.value === '' ? 'Укажите пароль' : '';
+    error = firstPass !== secondPass && !error ? 'Пароли не совпадают' : error;
+    setStateInputs({
+      ...stateInputs,
+      passwordConfirm: {
+        value: e.target.value,
+        error,
+      },
+    });
+  }
+
+  function onSubmit(e: any) {
+    e.prevetDefault();
   }
 
   return (
@@ -78,9 +107,11 @@ export default function App() {
             <input
               name="password"
               type="password"
+              minLength={5}
               className="form__input"
               required
               onChange={handleChangePassword}
+              value={stateInputs.password.value}
             />
           </Input>
           <Input
@@ -95,7 +126,8 @@ export default function App() {
               type="password"
               className="form__input"
               required
-              onChange={handleChangePassword}
+              onChange={handleConfirmPassword}
+              value={stateInputs.passwordConfirm.value}
             />
           </Input>
         </div>
@@ -122,20 +154,20 @@ export default function App() {
             error=""
             textInfo=""
           >
-            <input
-              type="checkbox"
-              id="checkbox"
-              className="form__input form__input-checkbox"
-              checked={checkInfo}
-              onChange={() => setCheckInfo(!checkInfo)}
-            />
-            <label htmlFor="checkbox">
-              принимать актуальную информацию на емейл
+            <label htmlFor="checkbox" className="form__input-label">
+              <input
+                type="checkbox"
+                id="checkbox"
+                className="form__input form__input-checkbox"
+                checked={checkInfo}
+                onChange={() => setCheckInfo(!checkInfo)}
+              />
+              принимать актуальную информацию на email
             </label>
           </Input>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <button className="form__submit" onClick={() => ''}>
+          <button type="button" className="form__submit" onClick={onSubmit}>
             Изменить
           </button>
           <p className="from__status-info text-info">

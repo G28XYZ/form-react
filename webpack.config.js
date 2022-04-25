@@ -24,16 +24,21 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        loader: "awesome-typescript-loader",
+        loader: "ts-loader",
       },
       {
-        enforce: "pre",
         test: /\.js$/,
-        loader: "source-map-loader",
+        use: "babel-loader",
+        exclude: "/node_modules/",
       },
       {
         test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
         type: "asset/resource",
+      },
+      {
+        test: /\.scss$/,
+        use: "sass-loader",
+        exclude: "/node_modules/",
       },
       {
         test: /\.css$/,

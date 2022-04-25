@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import Header from './Header';
 import Input from './Input';
 
 export default function App() {
-  const [date, setDate] = useState(new Date(2015, 2, 15, 14, 55, 17));
+  const [date, setDate] = useState(new Date(2012, 5, 15, 14, 55, 17));
   const [user, setUser] = useState('');
   const [checkInfo, setCheckInfo] = useState(true);
 
@@ -61,18 +62,14 @@ export default function App() {
     e.prevetDefault();
   }
 
+  function getTime() {
+    return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} в ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+  }
+
   return (
     <section className="form">
       <form className="form__container">
-        <div className="form__header">
-          <h1 className="form__header-title">{`Здравствуйте, ${user}`}</h1>
-          <div className="form__header-status">Сменить статус</div>
-          <div className="form__header-tooltip">
-            <p style={{ margin: 0, alignSelf: 'center' }}>
-              Прежде чем действовать, надо понять
-            </p>
-          </div>
-        </div>
+        <Header user={user} />
         <div className="form__inputs">
           <Input
             title="Ваш город"
@@ -171,7 +168,7 @@ export default function App() {
             Изменить
           </button>
           <p className="from__status-info text-info">
-            {`последние изменения ${date}`}
+            {`последние изменения ${getTime()}`}
           </p>
         </div>
       </form>

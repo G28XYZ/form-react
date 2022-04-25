@@ -11,25 +11,42 @@
     justify-content: space-between;
     max-width: 718px;
     width: 100%;
-    padding-bottom: 96px;
+    padding-bottom: 66px;
     &-title {
       margin: 0;
       width: max-content;
+      font-size: 30px;
+      line-height: calc(34 / 30);
+      color: #666666;
     }
     &-status {
+      margin: 0;
       color: #0c77bb;
       width: max-content;
+      border: none;
+      padding: 0;
       border-bottom: 1px dashed;
+      font-size: 12px;
+      line-height: calc(20 / 12);
+      background-color: transparent;
       cursor: pointer;
     }
     &-tooltip {
       position: absolute;
       display: flex;
-      left: 234px;
+      left: 224px;
       top: 50px;
       background-color: #eaeaea;
       width: 500px;
       height: 46px;
+      &-text {
+        margin: 0;
+        align-self: center;
+        padding-left: 10px;
+        font-size: 14px;
+        line-height: calc(22 / 14);
+        color: #404040;
+      }
     }
     &:before {
       content: '';

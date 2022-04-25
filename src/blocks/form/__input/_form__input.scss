@@ -30,6 +30,7 @@
     font-size: 21px;
     padding-right: 36px;
     line-height: calc(19 / 21);
+    font-weight: 400;
   }
   &-error {
     position: absolute;
@@ -71,6 +72,14 @@
       top: 50%;
       right: 10px;
       transform: translate(0, -50%);
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .form__input {
+    &-block {
+      flex-direction: column;
     }
   }
 }

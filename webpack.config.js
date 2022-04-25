@@ -1,61 +1,57 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: "./src/index.tsx",
-  target: "web",
-  mode: "development",
+  entry: './src/index.tsx',
+  target: 'web',
+  mode: 'development',
+  devtool: 'source-map',
   devServer: {
-    static: path.resolve(__dirname, "./public"),
+    static: path.resolve(__dirname, './public'),
     compress: true,
     port: 8080,
     open: false,
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "main.js",
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'main.js',
   },
   resolve: {
-    extensions: [".js", ".jsx", ".json", ".ts", ".tsx"],
+    extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
   },
   module: {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        loader: "ts-loader",
+        loader: 'ts-loader',
       },
       {
         test: /\.js$/,
-        use: "babel-loader",
-        exclude: "/node_modules/",
+        use: 'babel-loader',
+        exclude: '/node_modules/',
       },
       {
         test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
-        type: "asset/resource",
+        type: 'asset/resource',
       },
+
       {
-        test: /\.scss$/,
-        use: "sass-loader",
-        exclude: "/node_modules/",
-      },
-      {
-        test: /\.css$/,
+        test: /\.(sc|sa|c)ss$/,
         use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: "css-loader",
-            options: { importLoaders: 1 },
-          },
-          "postcss-loader",
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'sass-loader' },
+          { loader: 'postcss-loader' },
         ],
+        exclude: '/node_modules/',
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "src", "index.html"),
+      template: './src/index.html',
     }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),

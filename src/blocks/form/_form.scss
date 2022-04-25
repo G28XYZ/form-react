@@ -1,0 +1,23 @@
+.form {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 90px 100px 0 100px;
+
+  &__inputs {
+    display: flex;
+    flex-direction: column;
+  }
+  &__input-container {
+    display: flex;
+    width: 560px;
+    justify-content: space-between;
+  }
+  &__input {
+    width: 336px;
+    height: 31px;
+    box-sizing: border-box;
+    &-title {
+      margin: 0;
+    }
+  }
+}

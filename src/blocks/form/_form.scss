@@ -19,7 +19,8 @@
     &-status {
       color: #0c77bb;
       width: max-content;
-      border-bottom: 1px dotted;
+      border-bottom: 1px dashed;
+      cursor: pointer;
     }
     &-tooltip {
       position: absolute;
@@ -61,15 +62,20 @@
         background-color: #e5e4e4;
       }
     }
-    &:nth-last-child(1) {
-      &:after {
-        content: '';
-        position: absolute;
-        width: 100%;
+    &:last-of-type {
+      &::after {
         height: 0;
-        bottom: 0;
-        background-color: #e5e4e4;
       }
     }
+  }
+  &__submit {
+    float: left;
+    background-color: #71c838;
+    color: white;
+    height: 40px;
+    width: 119px;
+    border: none;
+    cursor: pointer;
+    margin-left: 224px;
   }
 }

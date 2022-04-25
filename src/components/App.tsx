@@ -79,6 +79,7 @@ export default function App() {
             </div>
           </div>
         </div>
+        <button className="form__submit">Изменить</button>
       </form>
     </section>
   );

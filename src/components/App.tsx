@@ -1,10 +1,14 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  ChangeEvent,
+  SyntheticEvent,
+} from 'react';
 import Header from './Header';
 import Places from './Places';
 import Email from './Email';
 import Password from './Password';
-
-type Event<T = any> = EventTarget & T;
 
 export default function App() {
   const [date, setDate] = useState(new Date(2012, 5, 15, 14, 55, 17));
@@ -21,7 +25,7 @@ export default function App() {
   }, []);
 
   const handleChangeEmail = useCallback(
-    (e: Event) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       const reg = /^\S+@\S+\.\S+$/;
       const error = !reg.test(e.target.value) ? 'Неверный E-mail' : '';
       setStateInputs({
@@ -32,11 +36,11 @@ export default function App() {
         },
       });
     },
-    [setStateInputs],
+    [stateInputs],
   );
 
   const handleChangePassword = useCallback(
-    (e: Event) => {
+    (e: ChangeEvent<HTMLInputElement>): void => {
       let error = e.target.value === '' ? 'Укажите пароль' : '';
       error =
         e.target.value.length < 5 && !error
@@ -50,11 +54,11 @@ export default function App() {
         },
       });
     },
-    [setStateInputs],
+    [stateInputs],
   );
 
   const handleConfirmPassword = useCallback(
-    (e: Event) => {
+    (e: ChangeEvent<HTMLInputElement>): void => {
       const firstPass = stateInputs.password.value;
       const secondPass = e.target.value;
       let error = e.target.value === '' ? 'Укажите пароль' : '';
@@ -68,15 +72,14 @@ export default function App() {
         },
       });
     },
-    [setStateInputs],
+    [stateInputs],
   );
 
-  const handleChangeCheckInfo = useCallback((): undefined => {
+  const handleChangeCheckInfo = useCallback(() => {
     setCheckInfo(!checkInfo);
-    return undefined;
-  }, [setCheckInfo]);
+  }, [checkInfo]);
 
-  function onSubmit(e: Event) {
+  function onSubmit(e: SyntheticEvent) {
     e.preventDefault();
   }
 
@@ -95,7 +98,7 @@ export default function App() {
           handleConfirmPassword={handleConfirmPassword}
         />
         <Email
-          stateInput={stateInputs}
+          stateInputs={stateInputs}
           checkInfo={checkInfo}
           handleChangeEmail={handleChangeEmail}
           handleChangeCheckInfo={handleChangeCheckInfo}

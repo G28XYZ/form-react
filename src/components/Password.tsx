@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import Input from './Input';
 
 interface Props {
   stateInputs: any;
-  handleChangePassword: undefined;
-  handleConfirmPassword: undefined;
+  handleChangePassword: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleConfirmPassword: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Password({
   stateInputs,
   handleChangePassword,
   handleConfirmPassword,
-}: any) {
+}: Props) {
   return (
     <div className="form__inputs">
       <Input
@@ -27,7 +27,7 @@ export default function Password({
           className="form__input"
           required
           onChange={handleChangePassword}
-          value={stateInputs.password.value}
+          // value={stateInputs.password.value}
         />
       </Input>
       <Input
@@ -43,7 +43,7 @@ export default function Password({
           className="form__input"
           required
           onChange={handleConfirmPassword}
-          value={stateInputs.passwordConfirm.value}
+          // value={stateInputs.passwordConfirm.value}
         />
       </Input>
     </div>

@@ -1,0 +1,25 @@
+input[type='checkbox'] {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+  & + span {
+    &:before {
+      content: '';
+      border: 1px solid #7e7e7e;
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin-right: 0.5em;
+      margin-top: 0.5em;
+      vertical-align: -2px;
+    }
+  }
+  &:checked + span:before {
+    background-image: url(./images/check.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 10px;
+    background-color: white;
+    color: white;
+  }
+}

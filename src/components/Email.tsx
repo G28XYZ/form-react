@@ -51,7 +51,7 @@ export default function Email({
             checked={checkInfo}
             onChange={handleChangeCheckInfo}
           />
-          принимать актуальную информацию на email
+          <span>принимать актуальную информацию на email</span>
         </label>
       </Input>
     </div>

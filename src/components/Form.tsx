@@ -103,6 +103,13 @@ export default function Form() {
     setTooltip({ ...tooltip, isOpen: !tooltip.isOpen });
   }, [tooltip]);
 
+  const handleChangeStatus = useCallback(
+    (e: ChangeEvent<HTMLInputElement>): void => {
+      setTooltip({ ...tooltip, text: e.target.value });
+    },
+    [tooltip],
+  );
+
   return (
     <section className="form">
       <form className="form__container">
@@ -111,6 +118,7 @@ export default function Form() {
           handleClickStatus={handleClickStatus}
           tooltipText={tooltip.text}
           tooltipIsOpen={tooltip.isOpen}
+          handleChangeStatus={handleChangeStatus}
         />
         <Places />
         <Password

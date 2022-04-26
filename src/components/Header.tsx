@@ -1,10 +1,11 @@
-import React, { MouseEvent } from 'react';
+import React, { MouseEvent, ChangeEvent } from 'react';
 
 interface Props {
   user: string;
   tooltipText: string;
   tooltipIsOpen: boolean;
   handleClickStatus: (event: MouseEvent<HTMLElement>) => void;
+  handleChangeStatus: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Header({
@@ -12,6 +13,7 @@ export default function Header({
   handleClickStatus,
   tooltipText,
   tooltipIsOpen,
+  handleChangeStatus,
 }: Props) {
   return (
     <div className="form__header">
@@ -26,8 +28,17 @@ export default function Header({
                 tooltipIsOpen && 'form__header-tooltip-change_active'
               }`}
             >
-              <input type="text" className="form__header-input" />
-              <button type="button" className="form__header-close">
+              <input
+                type="text"
+                className="form__header-input"
+                value={tooltipText}
+                onChange={handleChangeStatus}
+              />
+              <button
+                onClick={handleClickStatus}
+                type="button"
+                className="form__header-close"
+              >
                 X
               </button>
             </div>

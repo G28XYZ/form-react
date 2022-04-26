@@ -20,7 +20,13 @@ export default function Input({
       <h2 className="form__input-title">{title}</h2>
       <div className={`form__input-container ${selector}`}>
         {children}
-        {error && <span className="form__input-error">{error}</span>}
+        <span
+          className={`form__input-error-text ${
+            error && 'form__input-error-text_active'
+          }`}
+        >
+          {error}
+        </span>
       </div>
       {textInfo && <p className="form__input-info text-info">{textInfo}</p>}
     </div>

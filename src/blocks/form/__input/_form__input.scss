@@ -9,6 +9,11 @@
   box-sizing: border-box;
   position: relative;
   outline: none;
+  z-index: 1;
+  background-color: transparent;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   &_error {
     border: 1px solid red;
   }
@@ -85,6 +90,7 @@
       background-image: url(./images/arrow.svg);
       background-repeat: no-repeat;
       background-size: 100%;
+      background-color: white;
       top: 50%;
       right: 10px;
       transform: translate(0, -50%);

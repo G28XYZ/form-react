@@ -4,6 +4,7 @@ import React, {
   useCallback,
   ChangeEvent,
   SyntheticEvent,
+  MouseEvent,
 } from 'react';
 import Header from './Header';
 import Places from './Places';
@@ -18,6 +19,10 @@ export default function Form() {
   const [university, setUniversity] = useState([]);
   const [checkInfo, setCheckInfo] = useState(true);
   const [tooltip, setTooltip] = useState({ text: '', isOpen: false });
+  const [place, setPlace] = useState({
+    city: { name: '', isOpen: false },
+    university: { name: '', isOpen: false },
+  });
   const [stateInputs, setStateInputs] = useState({
     password: { error: '', value: '' },
     passwordConfirm: { error: '', value: '' },
@@ -115,6 +120,28 @@ export default function Form() {
     [stateInputs],
   );
 
+  const handleClickPlace = useCallback(
+    (p: string, name: string): void => {
+      const placeObj = Object.assign(place)[p];
+      placeObj.name = name;
+      setPlace({ ...place, [p]: { ...placeObj } });
+    },
+    [place],
+  );
+
+  const handleClickDrop = useCallback(
+    (e: MouseEvent<HTMLInputElement>): void => {
+      const target = e.target as HTMLTextAreaElement;
+      const placeObj = Object.assign(place)[target.name];
+      const toggle = { ...placeObj, isOpen: !placeObj.isOpen };
+      setPlace({
+        ...place,
+        [target.name]: { ...toggle },
+      });
+    },
+    [place],
+  );
+
   const handleChangeCheckInfo = useCallback(() => {
     setCheckInfo(!checkInfo);
   }, [checkInfo]);
@@ -158,7 +185,13 @@ export default function Form() {
           tooltipIsOpen={tooltip.isOpen}
           handleChangeStatus={handleChangeStatus}
         />
-        <Places />
+        <Places
+          cities={cities}
+          universities={university}
+          handleClickDrop={handleClickDrop}
+          handleClickPlace={handleClickPlace}
+          statePlace={place}
+        />
         <Password
           stateInputs={stateInputs}
           handleChangePassword={changePassword}

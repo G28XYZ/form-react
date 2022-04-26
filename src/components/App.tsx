@@ -11,7 +11,7 @@ import Email from './Email';
 import Password from './Password';
 
 export default function App() {
-  const [date, setDate] = useState(new Date(2012, 5, 15, 14, 55, 17));
+  const [date, setDate] = useState(new Date());
   const [user, setUser] = useState('');
   const [checkInfo, setCheckInfo] = useState(true);
   const [stateInputs, setStateInputs] = useState({
@@ -21,8 +21,28 @@ export default function App() {
   });
 
   useEffect(() => {
+    setDate(new Date(2012, 5, 15, 14, 55, 17));
     setUser('Человек №3596941');
   }, []);
+
+  function checkEqually() {
+    const firstPass: string = stateInputs.password.value;
+    const secondPass: string = stateInputs.passwordConfirm.value;
+    const { error } = stateInputs.passwordConfirm;
+    setStateInputs({
+      ...stateInputs,
+      passwordConfirm: {
+        ...stateInputs.passwordConfirm,
+        error:
+          firstPass !== secondPass && !error ? 'Пароли не совпадают' : error,
+      },
+    });
+  }
+
+  useEffect(checkEqually, [
+    stateInputs.password.value,
+    stateInputs.passwordConfirm.value,
+  ]);
 
   const handleChangeEmail = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,34 +59,20 @@ export default function App() {
     [stateInputs],
   );
 
-  const handleChangePassword = useCallback(
+  const changePassword = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
       let error = e.target.value === '' ? 'Укажите пароль' : '';
-      error =
-        e.target.value.length < 5 && !error
-          ? 'Используйте не менее 5 символов'
-          : error;
-      setStateInputs({
-        ...stateInputs,
-        password: {
-          value: e.target.value,
-          error,
-        },
-      });
-    },
-    [stateInputs],
-  );
 
-  const handleConfirmPassword = useCallback(
-    (e: ChangeEvent<HTMLInputElement>): void => {
-      const firstPass = stateInputs.password.value;
-      const secondPass = e.target.value;
-      let error = e.target.value === '' ? 'Укажите пароль' : '';
-      error =
-        firstPass !== secondPass && !error ? 'Пароли не совпадают' : error;
+      if (e.target.name === 'password') {
+        const errorLen = e.target.value.length;
+        const message = 'Используйте не менее 5 символов';
+
+        error = errorLen < 5 && !error ? message : error;
+      }
+
       setStateInputs({
         ...stateInputs,
-        passwordConfirm: {
+        [e.target.name]: {
           value: e.target.value,
           error,
         },
@@ -94,8 +100,8 @@ export default function App() {
         <Places />
         <Password
           stateInputs={stateInputs}
-          handleChangePassword={handleChangePassword}
-          handleConfirmPassword={handleConfirmPassword}
+          handleChangePassword={changePassword}
+          handleConfirmPassword={changePassword}
         />
         <Email
           stateInputs={stateInputs}

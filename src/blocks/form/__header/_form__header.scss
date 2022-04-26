@@ -1,5 +1,3 @@
-$fifty: 50;
-
 .form__header {
   display: flex;
   justify-content: space-between;
@@ -40,25 +38,19 @@ $fifty: 50;
       transform: rotate(45deg);
     }
   }
-  &-tooltip {
-    position: absolute;
-    display: flex;
-    left: 0;
-    top: $fifty + 0px;
-    background-color: #eaeaea;
-    width: 35vw;
-    height: 46px;
-    &-text {
-      margin: 0;
-      align-self: center;
-      padding-left: 10px;
-      font-size: 14px;
-      line-height: calc(22 / 14);
-      color: #404040;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-    }
+  &-input {
+    outline: none;
+    width: 100%;
+    font-size: 16px;
+    line-height: calc(20 / 16);
+    padding: 0;
+    height: max-content;
+  }
+  &-close {
+    padding: 0;
+    height: max-content;
+    font-size: 16px;
+    line-height: calc(20 / 16);
   }
 }
 
@@ -71,9 +63,6 @@ $fifty: 50;
       display: flex;
       flex-direction: column;
       font-size: 25px;
-    }
-    &-tooltip {
-      width: 100%;
     }
   }
 }

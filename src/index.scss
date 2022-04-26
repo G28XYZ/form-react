@@ -2,8 +2,11 @@
 
 @import './blocks/root/root';
 
+@import './blocks/vars';
+
 @import './blocks/form/form';
 @import './blocks/form/__header/form__header';
+@import './blocks/form/__header-tooltip/form__header-tooltip';
 @import './blocks/form/__input/form__input';
 @import './blocks/form/__submit/form__submit';
 

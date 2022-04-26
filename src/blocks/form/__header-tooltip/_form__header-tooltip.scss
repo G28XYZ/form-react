@@ -1,0 +1,37 @@
+.form__header-tooltip {
+  position: absolute;
+  display: flex;
+  left: 0;
+  top: $fifty + 0px;
+  background-color: #eaeaea;
+  width: 35vw;
+  height: 46px;
+  &-text {
+    margin: 0;
+    align-self: center;
+    padding-left: 10px;
+    font-size: 14px;
+    line-height: calc(22 / 14);
+    color: #404040;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  &-change {
+    opacity: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    &_active {
+      opacity: 1;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .form__header-tooltip {
+    width: 100%;
+  }
+}

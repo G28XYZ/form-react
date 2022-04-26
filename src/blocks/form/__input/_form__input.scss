@@ -8,6 +8,10 @@
   border: 1px solid #999999;
   box-sizing: border-box;
   position: relative;
+  outline: none;
+  &_error {
+    border: 1px solid red;
+  }
   &-block {
     display: flex;
     align-items: center;

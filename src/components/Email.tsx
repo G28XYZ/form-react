@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import Input from './Input';
 
+interface Data {
+  error: string;
+  value: string;
+}
+
 interface Props {
-  stateInputs: any;
-  handleChangeEmail: undefined;
+  stateInputs: { [key: string]: Data };
+  handleChangeEmail: (event: ChangeEvent<HTMLInputElement>) => void;
   checkInfo: boolean;
-  handleChangeCheckInfo: undefined;
+  handleChangeCheckInfo: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Email({
@@ -13,19 +18,20 @@ export default function Email({
   handleChangeEmail,
   checkInfo,
   handleChangeCheckInfo,
-}: any) {
+}: Props) {
+  const { error } = stateInputs.email;
   return (
     <div className="form__inputs">
       <Input
         title="Электронная почта"
         selector=""
-        error={stateInputs.email.error}
+        error={error}
         textInfo="Можно изменить адрес, указанный при регистрации."
       >
         <input
           name="email"
           type="text"
-          className="form__input"
+          className={`form__input ${error && 'form__input_error'}`}
           onChange={handleChangeEmail}
           required
         />

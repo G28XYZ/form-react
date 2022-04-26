@@ -10,10 +10,11 @@ import Places from './Places';
 import Email from './Email';
 import Password from './Password';
 
-export default function App() {
+export default function Form() {
   const [date, setDate] = useState(new Date());
   const [user, setUser] = useState('');
   const [checkInfo, setCheckInfo] = useState(true);
+  const [tooltip, setTooltip] = useState({ text: '', isOpen: false });
   const [stateInputs, setStateInputs] = useState({
     password: { error: '', value: '' },
     passwordConfirm: { error: '', value: '' },
@@ -23,18 +24,23 @@ export default function App() {
   useEffect(() => {
     setDate(new Date(2012, 5, 15, 14, 55, 17));
     setUser('Человек №3596941');
+    setTooltip({ ...tooltip, text: 'Прежде чем действовать, надо понять' });
   }, []);
 
   function checkEqually() {
     const firstPass: string = stateInputs.password.value;
     const secondPass: string = stateInputs.passwordConfirm.value;
-    const { error } = stateInputs.passwordConfirm;
+    let { error } = stateInputs.passwordConfirm;
+    if (firstPass !== secondPass && !error) {
+      error = 'Пароли не совпадают';
+    } else if (firstPass === secondPass) {
+      error = '';
+    }
     setStateInputs({
       ...stateInputs,
       passwordConfirm: {
         ...stateInputs.passwordConfirm,
-        error:
-          firstPass !== secondPass && !error ? 'Пароли не совпадают' : error,
+        error,
       },
     });
   }
@@ -93,10 +99,19 @@ export default function App() {
     return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} в ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
   }
 
+  const handleClickStatus = useCallback(() => {
+    setTooltip({ ...tooltip, isOpen: !tooltip.isOpen });
+  }, [tooltip]);
+
   return (
     <section className="form">
       <form className="form__container">
-        <Header user={user} />
+        <Header
+          user={user}
+          handleClickStatus={handleClickStatus}
+          tooltipText={tooltip.text}
+          tooltipIsOpen={tooltip.isOpen}
+        />
         <Places />
         <Password
           stateInputs={stateInputs}

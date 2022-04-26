@@ -110,8 +110,12 @@ export default function App() {
           handleChangeCheckInfo={handleChangeCheckInfo}
         />
 
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <button type="button" className="form__submit" onClick={onSubmit}>
+        <div className="form__submit">
+          <button
+            type="button"
+            className="form__submit-button"
+            onClick={onSubmit}
+          >
             Изменить
           </button>
           <p className="from__status-info text-info">

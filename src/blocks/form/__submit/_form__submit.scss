@@ -1,0 +1,25 @@
+.form__submit {
+  display: flex;
+  align-items: center;
+  &-button {
+    background-color: #71c838;
+    color: white;
+    height: 40px;
+    width: 119px;
+    border: none;
+    cursor: pointer;
+    margin-left: 224px;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 1px 0px #539d22;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .form__submit {
+    max-width: 336px;
+    align-self: center;
+    &-button {
+      margin-left: 0;
+    }
+  }
+}

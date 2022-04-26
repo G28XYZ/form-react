@@ -1,8 +1,10 @@
 @import './vendor/normalize.css';
 
-@import './blocks/root';
+@import './blocks/root/root';
 
 @import './blocks/form/form';
+@import './blocks/form/__header/form__header';
 @import './blocks/form/__input/form__input';
+@import './blocks/form/__submit/form__submit';
 
 @import './blocks/text-info/text-info';

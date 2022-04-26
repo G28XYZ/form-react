@@ -4,3 +4,9 @@
   line-height: calc(20 / 12);
   padding-left: 18px;
 }
+
+@media screen and (max-width: 768px) {
+  .text-info {
+    padding-left: 0;
+  }
+}

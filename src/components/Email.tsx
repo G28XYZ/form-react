@@ -1,7 +1,19 @@
 import React from 'react';
 import Input from './Input';
 
-export default function Email() {
+interface Props {
+  stateInputs: any;
+  handleChangeEmail: undefined;
+  checkInfo: boolean;
+  handleChangeCheckInfo: undefined;
+}
+
+export default function Email({
+  stateInputs,
+  handleChangeEmail,
+  checkInfo,
+  handleChangeCheckInfo,
+}: any) {
   return (
     <div className="form__inputs">
       <Input
@@ -31,7 +43,7 @@ export default function Email() {
             id="checkbox"
             className="form__input form__input-checkbox"
             checked={checkInfo}
-            onChange={() => setCheckInfo(!checkInfo)}
+            onChange={handleChangeCheckInfo}
           />
           принимать актуальную информацию на email
         </label>

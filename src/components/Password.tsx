@@ -3,7 +3,8 @@ import Input from './Input';
 
 interface Props {
   stateInputs: any;
-  handleChangePassword: any;
+  handleChangePassword: undefined;
+  handleConfirmPassword: undefined;
 }
 
 export default function Password({

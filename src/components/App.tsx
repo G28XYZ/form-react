@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Header from './Header';
 import Places from './Places';
 import Email from './Email';
+import Password from './Password';
+
+type Event<T = any> = EventTarget & T;
 
 export default function App() {
   const [date, setDate] = useState(new Date(2012, 5, 15, 14, 55, 17));
@@ -17,49 +20,64 @@ export default function App() {
     setUser('Человек №3596941');
   }, []);
 
-  function handleChangeEmail(e: any) {
-    const reg = /^\S+@\S+\.\S+$/;
-    const error = !reg.test(e.target.value) ? 'Неверный E-mail' : '';
-    setStateInputs({
-      ...stateInputs,
-      [e.target.name]: {
-        error: (e.target.validationMessage && 'Укажите E-mail') || error,
-        value: e.target.value,
-      },
-    });
-  }
+  const handleChangeEmail = useCallback(
+    (e: Event) => {
+      const reg = /^\S+@\S+\.\S+$/;
+      const error = !reg.test(e.target.value) ? 'Неверный E-mail' : '';
+      setStateInputs({
+        ...stateInputs,
+        [e.target.name]: {
+          error: (e.target.validationMessage && 'Укажите E-mail') || error,
+          value: e.target.value,
+        },
+      });
+    },
+    [setStateInputs],
+  );
 
-  function handleChangePassword(e: any) {
-    let error = e.target.value === '' ? 'Укажите пароль' : '';
-    error =
-      e.target.value.length < 5 && !error
-        ? 'Используйте не менее 5 символов'
-        : error;
-    setStateInputs({
-      ...stateInputs,
-      password: {
-        value: e.target.value,
-        error,
-      },
-    });
-  }
+  const handleChangePassword = useCallback(
+    (e: Event) => {
+      let error = e.target.value === '' ? 'Укажите пароль' : '';
+      error =
+        e.target.value.length < 5 && !error
+          ? 'Используйте не менее 5 символов'
+          : error;
+      setStateInputs({
+        ...stateInputs,
+        password: {
+          value: e.target.value,
+          error,
+        },
+      });
+    },
+    [setStateInputs],
+  );
 
-  function handleConfirmPassword(e: any) {
-    const firstPass = stateInputs.password.value;
-    const secondPass = e.target.value;
-    let error = e.target.value === '' ? 'Укажите пароль' : '';
-    error = firstPass !== secondPass && !error ? 'Пароли не совпадают' : error;
-    setStateInputs({
-      ...stateInputs,
-      passwordConfirm: {
-        value: e.target.value,
-        error,
-      },
-    });
-  }
+  const handleConfirmPassword = useCallback(
+    (e: Event) => {
+      const firstPass = stateInputs.password.value;
+      const secondPass = e.target.value;
+      let error = e.target.value === '' ? 'Укажите пароль' : '';
+      error =
+        firstPass !== secondPass && !error ? 'Пароли не совпадают' : error;
+      setStateInputs({
+        ...stateInputs,
+        passwordConfirm: {
+          value: e.target.value,
+          error,
+        },
+      });
+    },
+    [setStateInputs],
+  );
 
-  function onSubmit(e: any) {
-    e.prevetDefault();
+  const handleChangeCheckInfo = useCallback((): undefined => {
+    setCheckInfo(!checkInfo);
+    return undefined;
+  }, [setCheckInfo]);
+
+  function onSubmit(e: Event) {
+    e.preventDefault();
   }
 
   function getTime() {
@@ -70,15 +88,17 @@ export default function App() {
     <section className="form">
       <form className="form__container">
         <Header user={user} />
-        <Places
+        <Places />
+        <Password
           stateInputs={stateInputs}
-          handleConfirmPassword={handleConfirmPassword}
           handleChangePassword={handleChangePassword}
+          handleConfirmPassword={handleConfirmPassword}
         />
         <Email
           stateInput={stateInputs}
           checkInfo={checkInfo}
           handleChangeEmail={handleChangeEmail}
+          handleChangeCheckInfo={handleChangeCheckInfo}
         />
 
         <div style={{ display: 'flex', alignItems: 'center' }}>

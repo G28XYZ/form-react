@@ -14,7 +14,8 @@ import api from '../utils/Api';
 export default function Form() {
   const [date, setDate] = useState(new Date());
   const [user, setUser] = useState('');
-  const [university, setUniversity] = useState({});
+  const [cities, setCities] = useState([]);
+  const [university, setUniversity] = useState([]);
   const [checkInfo, setCheckInfo] = useState(true);
   const [tooltip, setTooltip] = useState({ text: '', isOpen: false });
   const [stateInputs, setStateInputs] = useState({
@@ -23,22 +24,35 @@ export default function Form() {
     email: { error: '', value: '' },
   });
 
+  const normalizeCities = (obj: any) => {
+    const object = JSON.parse(JSON.stringify(obj));
+    const filtered = Object.keys(object)
+      .map((i) => object[i])
+      .filter((item) => +item.population > 50000);
+    const sorted = filtered.sort((a, b) => a.city - b.city);
+    const maxPopulation = sorted.reduce(
+      (p, c) => (+p.population < +c.population ? c : p),
+      { population: 0 },
+    );
+    const index = sorted.findIndex((item) => maxPopulation.city === item.city);
+    const populationToFirst = [
+      sorted[index],
+      ...sorted.slice(0, index),
+      ...sorted.slice(index + 1),
+    ];
+    return populationToFirst;
+  };
+
   useEffect(() => {
-    const getData = new Promise((resolve, reject) => {
-      const data = api.getUniversity();
-      if (data !== undefined) {
-        resolve(data);
-      }
-    });
-    getData
-      .then((data) => {
-        console.log(data);
-        setUniversity({ ...university });
+    Promise.all([api.getUniversity(), api.getCities()])
+      .then(([_universities, _cities]) => {
+        setCities(normalizeCities(_cities));
+        setUniversity(_universities);
         setDate(new Date(2012, 5, 15, 14, 55, 17));
         setUser('Человек №3596941');
         setTooltip({ ...tooltip, text: 'Прежде чем действовать, надо понять' });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => alert(`Error: ${err}`));
   }, []);
 
   function checkEqually() {

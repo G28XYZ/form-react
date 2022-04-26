@@ -9,7 +9,7 @@ module.exports = {
   mode: 'development',
   devtool: 'source-map',
   devServer: {
-    static: path.resolve(__dirname, './public'),
+    static: path.resolve(__dirname, './src'),
     compress: true,
     port: 8080,
     open: false,
@@ -19,7 +19,7 @@ module.exports = {
     filename: 'main.js',
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },
   module: {
     rules: [
@@ -36,7 +36,7 @@ module.exports = {
         test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
         type: 'asset/resource',
       },
-
+      // { test: /\.json$/i, loader: 'json-loader' },
       {
         test: /\.(sc|sa|c)ss$/,
         use: [

@@ -1,21 +1,34 @@
 import axios from 'axios';
-import { adress } from './contstants';
+import link from './constants';
 
 class Api {
-  private adress: string;
+  link: string;
 
-  constructor() {
-    this.adress = adress;
+  constructor({ link }: { [key: string]: string }) {
+    this.link = link;
   }
 
   getUniversity() {
-    axios
-      .get(this.adress)
-      .then((data: any) => data)
-      .catch((err: any) => console.log(err));
+    return axios
+      .get(this.link)
+      .then((response) =>
+        response.status === 200
+          ? Promise.resolve(response.data)
+          : Promise.reject('Error'),
+      );
+  }
+
+  getCities() {
+    return new Promise(async (resolve, reject) => {
+      const data = await import('./cities.json');
+      if (data) {
+        return resolve(data);
+      }
+      return reject('Ошибка получения данных о городах');
+    });
   }
 }
 
-const api = new Api();
+const api = new Api({ link });
 
 export default api;

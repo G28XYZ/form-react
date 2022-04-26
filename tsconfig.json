@@ -2,13 +2,21 @@
   "compilerOptions": {
     "jsx": "react",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "noImplicitAny": true,
     "outDir": "./dist/",
     "moduleResolution": "node",
     "preserveConstEnums": true,
     "removeComments": true,
     "sourceMap": true,
-    "target": "es6"
+    "target": "es6",
+    "module": "esnext"
   },
-  "include": ["src/**/*.tsx", "src/**/*.ts", "src/index.jsx"]
+  "include": [
+    "src/**/*",
+    "src/**/*.tsx",
+    "src/**/*.ts",
+    "src/index.jsx",
+    "src/utils/cities.json"
+  ]
 }

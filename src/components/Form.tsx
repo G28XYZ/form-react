@@ -9,10 +9,12 @@ import Header from './Header';
 import Places from './Places';
 import Email from './Email';
 import Password from './Password';
+import api from '../utils/Api';
 
 export default function Form() {
   const [date, setDate] = useState(new Date());
   const [user, setUser] = useState('');
+  const [university, setUniversity] = useState({});
   const [checkInfo, setCheckInfo] = useState(true);
   const [tooltip, setTooltip] = useState({ text: '', isOpen: false });
   const [stateInputs, setStateInputs] = useState({
@@ -22,9 +24,21 @@ export default function Form() {
   });
 
   useEffect(() => {
-    setDate(new Date(2012, 5, 15, 14, 55, 17));
-    setUser('Человек №3596941');
-    setTooltip({ ...tooltip, text: 'Прежде чем действовать, надо понять' });
+    const getData = new Promise((resolve, reject) => {
+      const data = api.getUniversity();
+      if (data !== undefined) {
+        resolve(data);
+      }
+    });
+    getData
+      .then((data) => {
+        console.log(data);
+        setUniversity({ ...university });
+        setDate(new Date(2012, 5, 15, 14, 55, 17));
+        setUser('Человек №3596941');
+        setTooltip({ ...tooltip, text: 'Прежде чем действовать, надо понять' });
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   function checkEqually() {
@@ -91,9 +105,19 @@ export default function Form() {
     setCheckInfo(!checkInfo);
   }, [checkInfo]);
 
-  function onSubmit(e: SyntheticEvent) {
+  const onSubmit = useCallback((e: SyntheticEvent): void => {
     e.preventDefault();
-  }
+    const inputs = Object.assign(stateInputs);
+    const keys = Object.keys(inputs);
+    // проверка валидности инпутов
+    for (let i = 0; i < keys.length; i + 1) {
+      const { error, value } = inputs[keys[i]];
+      if (error || !value) {
+        return;
+      }
+    }
+    setDate(new Date());
+  }, []);
 
   function getTime() {
     return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} в ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;

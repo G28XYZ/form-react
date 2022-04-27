@@ -32,24 +32,24 @@ export default function Form() {
   useEffect(() => {
     Promise.all([api.getUniversity(), api.getCities()])
       .then(
-        ([_universities, _cities]) =>
+        ([universities, cities]) =>
           new Promise((resolve, reject) => {
-            const normalize = normalizeCities(_cities);
+            const normalize = normalizeCities(cities);
             if (normalize) {
-              resolve([normalize, _universities]);
+              resolve([normalize, universities]);
               return;
             }
             reject(new Error('Ошибка'));
           }),
       )
-      .then(([c, u]) => {
-        dispatch({ type: 'SET_CITIES', payload: c });
-        dispatch({ type: 'SET_UNIVERSITIES', payload: u });
+      .then(([cities, university]) => {
+        dispatch({ type: 'SET_CITIES', payload: cities });
+        dispatch({ type: 'SET_UNIVERSITIES', payload: university });
         dispatch({
           type: 'SET_PLACE',
           payload: {
-            city: { name: c[0].city, isOpen: false },
-            university: { name: u[0].name, isOpen: false },
+            city: { name: cities[0].city, isOpen: false },
+            university: { name: university[0].name, isOpen: false },
           },
         });
         dispatch({

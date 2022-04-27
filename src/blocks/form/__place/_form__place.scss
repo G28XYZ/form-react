@@ -1,0 +1,39 @@
+.form__place {
+  position: absolute;
+  overflow: scroll;
+  overflow-x: hidden;
+  height: 0;
+  z-index: 2;
+  border: none;
+  width: 100%;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background-color: white;
+  transition: height 0.6s;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  &-item {
+    padding: 5px 10px;
+    position: relative;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      left: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+  }
+  &_open {
+    height: 150px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-top: none;
+  }
+}

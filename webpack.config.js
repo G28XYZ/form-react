@@ -36,7 +36,6 @@ module.exports = {
         test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
         type: 'asset/resource',
       },
-      // { test: /\.json$/i, loader: 'json-loader' },
       {
         test: /\.(sc|sa|c)ss$/,
         use: [

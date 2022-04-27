@@ -1,0 +1,12 @@
+.spinner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 3em;
+  height: 3em;
+  &__image {
+    width: inherit;
+    height: inherit;
+    transform: translate(-50%, -50%);
+  }
+}

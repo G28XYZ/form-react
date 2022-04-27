@@ -3,16 +3,18 @@ import React, {
   useState,
   useCallback,
   ChangeEvent,
-  SyntheticEvent,
+  FormEvent,
   MouseEvent,
 } from 'react';
 import Header from './Header';
 import Places from './Places';
 import Email from './Email';
 import Password from './Password';
+import Spinner from './Spinner';
 import api from '../utils/Api';
 
 export default function Form() {
+  const [loading, setLoading] = useState(true);
   const [date, setDate] = useState(new Date());
   const [user, setUser] = useState('');
   const [cities, setCities] = useState([]);
@@ -70,6 +72,7 @@ export default function Form() {
         setDate(new Date(2012, 5, 15, 14, 55, 17));
         setUser('Человек №3596941');
         setTooltip({ ...tooltip, text: 'Прежде чем действовать, надо понять' });
+        setLoading(false);
       })
       .catch((err) => alert(`Error: ${err}`));
   }, []);
@@ -160,19 +163,28 @@ export default function Form() {
     setCheckInfo(!checkInfo);
   }, [checkInfo]);
 
-  const onSubmit = useCallback((e: SyntheticEvent): void => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     const inputs = Object.assign(stateInputs);
     const keys = Object.keys(inputs);
     // проверка валидности инпутов
-    for (let i = 0; i < keys.length; i + 1) {
+    for (let i = 0; i < keys.length; i++) {
       const { error, value } = inputs[keys[i]];
       if (error || !value) {
         return;
       }
     }
+    const formJson = JSON.stringify({
+      status: tooltip.text,
+      city: place.city.name,
+      university: place.university.name,
+      email: inputs.email.value,
+      password: inputs.password.value,
+      checkInfo,
+    });
+    api.postForm(formJson);
     setDate(new Date());
-  }, []);
+  };
 
   function getTime() {
     return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} в ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
@@ -191,46 +203,46 @@ export default function Form() {
 
   return (
     <section className="form">
-      <form className="form__container">
-        <Header
-          user={user}
-          handleClickStatus={handleClickStatus}
-          tooltipText={tooltip.text}
-          tooltipIsOpen={tooltip.isOpen}
-          handleChangeStatus={handleChangeStatus}
-        />
-        <Places
-          cities={cities}
-          universities={university}
-          handleClickDrop={handleClickDrop}
-          handleClickPlace={handleClickPlace}
-          statePlace={place}
-        />
-        <Password
-          stateInputs={stateInputs}
-          handleChangePassword={changePassword}
-          handleConfirmPassword={changePassword}
-        />
-        <Email
-          stateInputs={stateInputs}
-          checkInfo={checkInfo}
-          handleChangeEmail={handleChangeEmail}
-          handleChangeCheckInfo={handleChangeCheckInfo}
-        />
+      {loading ? (
+        <Spinner />
+      ) : (
+        <form className="form__container" onSubmit={onSubmit}>
+          <Header
+            user={user}
+            handleClickStatus={handleClickStatus}
+            tooltipText={tooltip.text}
+            tooltipIsOpen={tooltip.isOpen}
+            handleChangeStatus={handleChangeStatus}
+          />
+          <Places
+            cities={cities}
+            universities={university}
+            handleClickDrop={handleClickDrop}
+            handleClickPlace={handleClickPlace}
+            statePlace={place}
+          />
+          <Password
+            stateInputs={stateInputs}
+            handleChangePassword={changePassword}
+            handleConfirmPassword={changePassword}
+          />
+          <Email
+            stateInputs={stateInputs}
+            checkInfo={checkInfo}
+            handleChangeEmail={handleChangeEmail}
+            handleChangeCheckInfo={handleChangeCheckInfo}
+          />
 
-        <div className="form__submit">
-          <button
-            type="button"
-            className="form__submit-button"
-            onClick={onSubmit}
-          >
-            Изменить
-          </button>
-          <p className="from__status-info text-info">
-            {`последние изменения ${getTime()}`}
-          </p>
-        </div>
-      </form>
+          <div className="form__submit">
+            <button type="submit" className="form__submit-button">
+              Изменить
+            </button>
+            <p className="from__status-info text-info">
+              {`последние изменения ${getTime()}`}
+            </p>
+          </div>
+        </form>
+      )}
     </section>
   );
 }

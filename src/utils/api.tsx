@@ -27,6 +27,10 @@ class Api {
       return reject('Ошибка получения данных о городах');
     });
   }
+
+  postForm(form: any) {
+    console.log(form);
+  }
 }
 
 const api = new Api({ link });

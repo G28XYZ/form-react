@@ -30,16 +30,24 @@ export default function Form() {
   };
 
   useEffect(() => {
-    Promise.all([api.getUniversity(), api.getCities()])
+    Promise.all([
+      api.getUniversity('/search?country=Russian+Federation'),
+      api.getCities(),
+    ])
       .then(
-        ([universities, cities]) => new Promise((resolve, reject) => {
-          const normalize = normalizeCities(cities);
-          if (normalize) {
-            resolve([normalize, universities]);
-            return;
-          }
-          reject(new Error('Ошибка'));
-        }),
+        ([universities, cities]) =>
+          new Promise((resolve, reject) => {
+            const normalize = normalizeCities(cities);
+            if (normalize) {
+              resolve([normalize, universities]);
+              return;
+            }
+            reject(
+              new Error(
+                'Ошибка получения списков возможно из-за протокола https',
+              ),
+            );
+          }),
       )
       .then(([cities, university]) => {
         dispatch({ type: 'SET_CITIES', payload: cities });
@@ -51,6 +59,9 @@ export default function Form() {
             university: { name: university[0].name, isOpen: false },
           },
         });
+      })
+      .catch((err) => alert(`Error: ${err}`))
+      .finally(() => {
         dispatch({
           type: 'SET_DATE',
           payload: new Date(2012, 5, 15, 14, 55, 17),
@@ -61,8 +72,7 @@ export default function Form() {
           payload: 'Прежде чем действовать, надо понять',
         });
         dispatch({ type: 'LOADING', payload: false });
-      })
-      .catch((err) => alert(`Error: ${err}`));
+      });
   }, []);
 
   function checkEqually() {

@@ -11,22 +11,19 @@ class Api {
   getUniversity() {
     return axios
       .get(this.link)
-      .then((response) =>
-        response.status === 200
-          ? Promise.resolve(response.data)
-          : Promise.reject(new Error('Error')),
-      );
+      .then((response) => (response.status === 200
+        ? Promise.resolve(response.data)
+        : Promise.reject(new Error('Error'))));
   }
 
-  public getCities = () =>
-    new Promise((resolve, reject) => {
-      const data = import('./cities.json');
-      if (data) {
-        resolve(data);
-        return;
-      }
-      reject(new Error('Ошибка получения данных о городах'));
-    });
+  public getCities = () => new Promise((resolve, reject) => {
+    const data = import('./cities.json');
+    if (data) {
+      resolve(data);
+      return;
+    }
+    reject(new Error('Ошибка получения данных о городах'));
+  });
 
   public postForm(form: any) {
     console.log(form);

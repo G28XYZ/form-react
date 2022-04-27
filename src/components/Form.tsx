@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, ChangeEvent, FormEvent } from 'react';
+import React, { useEffect, FormEvent } from 'react';
 import Header from './Header';
 import Places from './Places';
 import Email from './Email';
@@ -32,15 +32,14 @@ export default function Form() {
   useEffect(() => {
     Promise.all([api.getUniversity(), api.getCities()])
       .then(
-        ([universities, cities]) =>
-          new Promise((resolve, reject) => {
-            const normalize = normalizeCities(cities);
-            if (normalize) {
-              resolve([normalize, universities]);
-              return;
-            }
-            reject(new Error('Ошибка'));
-          }),
+        ([universities, cities]) => new Promise((resolve, reject) => {
+          const normalize = normalizeCities(cities);
+          if (normalize) {
+            resolve([normalize, universities]);
+            return;
+          }
+          reject(new Error('Ошибка'));
+        }),
       )
       .then(([cities, university]) => {
         dispatch({ type: 'SET_CITIES', payload: cities });

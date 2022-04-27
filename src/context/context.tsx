@@ -1,4 +1,6 @@
-import React, { createContext, useReducer, useMemo, useContext } from 'react';
+import React, {
+  createContext, useReducer, useMemo, useContext,
+} from 'react';
 
 export interface InitialState {
   date: Date;

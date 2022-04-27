@@ -35,18 +35,19 @@ export default function Form() {
       api.getCities(),
     ])
       .then(
-        ([universities, cities]) => new Promise((resolve, reject) => {
-          const normalize = normalizeCities(cities);
-          if (normalize) {
-            resolve([normalize, universities]);
-            return;
-          }
-          reject(
-            new Error(
-              'Ошибка получения списков возможно из-за протокола https',
-            ),
-          );
-        }),
+        ([universities, cities]) =>
+          new Promise((resolve, reject) => {
+            const normalize = normalizeCities(cities);
+            if (normalize) {
+              resolve([normalize, universities]);
+              return;
+            }
+            reject(
+              new Error(
+                'Ошибка получения списков возможно из-за протокола https',
+              ),
+            );
+          }),
       )
       .then(([cities, university]) => {
         dispatch({ type: 'SET_CITIES', payload: cities });
@@ -111,16 +112,19 @@ export default function Form() {
         return;
       }
     }
+    dispatch({ type: 'SET_DATE' });
     const formJson = JSON.stringify({
-      status: state.tooltip.text,
-      city: state.place.city.name,
-      university: state.place.university.name,
-      email: inputs.email.value,
-      password: inputs.password.value,
-      checkInfo: state.checkInfo,
+      [state.user]: {
+        status: state.tooltip.text,
+        city: state.place.city.name,
+        university: state.place.university.name,
+        email: inputs.email.value,
+        password: inputs.password.value,
+        checkInfo: state.checkInfo,
+        changeDate: new Date(),
+      },
     });
     api.postForm(formJson);
-    dispatch({ type: 'SET_DATE' });
   };
 
   function getTime() {

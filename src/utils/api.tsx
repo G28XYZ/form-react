@@ -13,26 +13,23 @@ class Api {
   public getUniversity(path: string) {
     return this.axios
       .get(path)
-      .then((response: any) =>
-        response.status === 200
-          ? Promise.resolve(response.data)
-          : Promise.reject(
-              new Error(
-                'Ошибка получения списка университетов, возможно из-за протокола https',
-              ),
-            ),
-      );
+      .then((response: any) => (response.status === 200
+        ? Promise.resolve(response.data)
+        : Promise.reject(
+          new Error(
+            'Ошибка получения списка университетов, возможно из-за протокола https',
+          ),
+        )));
   }
 
-  public getCities = () =>
-    new Promise((resolve, reject) => {
-      const data = import('./cities.json');
-      if (data) {
-        resolve(data);
-        return;
-      }
-      reject(new Error('Ошибка получения данных о городах'));
-    });
+  public getCities = () => new Promise((resolve, reject) => {
+    const data = import('./cities.json');
+    if (data) {
+      resolve(data);
+      return;
+    }
+    reject(new Error('Ошибка получения данных о городах'));
+  });
 
   public postForm(form: any) {
     console.log(form);

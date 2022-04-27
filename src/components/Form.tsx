@@ -35,19 +35,18 @@ export default function Form() {
       api.getCities(),
     ])
       .then(
-        ([universities, cities]) =>
-          new Promise((resolve, reject) => {
-            const normalize = normalizeCities(cities);
-            if (normalize) {
-              resolve([normalize, universities]);
-              return;
-            }
-            reject(
-              new Error(
-                'Ошибка получения списков возможно из-за протокола https',
-              ),
-            );
-          }),
+        ([universities, cities]) => new Promise((resolve, reject) => {
+          const normalize = normalizeCities(cities);
+          if (normalize) {
+            resolve([normalize, universities]);
+            return;
+          }
+          reject(
+            new Error(
+              'Ошибка получения списков возможно из-за протокола https',
+            ),
+          );
+        }),
       )
       .then(([cities, university]) => {
         dispatch({ type: 'SET_CITIES', payload: cities });

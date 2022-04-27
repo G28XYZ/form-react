@@ -50,9 +50,23 @@ export default function Form() {
 
   useEffect(() => {
     Promise.all([api.getUniversity(), api.getCities()])
-      .then(([_universities, _cities]) => {
-        setCities(normalizeCities(_cities));
-        setUniversity(_universities);
+      .then(
+        ([_universities, _cities]) =>
+          new Promise((resolve, reject) => {
+            const normalize = normalizeCities(_cities);
+            if (normalize) {
+              return resolve([normalize, _universities]);
+            }
+            return reject(new Error('Ошибка'));
+          }),
+      )
+      .then(([c, u]) => {
+        setCities(c);
+        setUniversity(u);
+        setPlace({
+          city: { name: c[0].city, isOpen: false },
+          university: { name: u[0].name, isOpen: false },
+        });
         setDate(new Date(2012, 5, 15, 14, 55, 17));
         setUser('Человек №3596941');
         setTooltip({ ...tooltip, text: 'Прежде чем действовать, надо понять' });

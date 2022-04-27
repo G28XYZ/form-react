@@ -14,21 +14,21 @@ class Api {
       .then((response) =>
         response.status === 200
           ? Promise.resolve(response.data)
-          : Promise.reject('Error'),
+          : Promise.reject(new Error('Error')),
       );
   }
 
-  getCities() {
-    return new Promise(async (resolve, reject) => {
-      const data = await import('./cities.json');
+  public getCities = () =>
+    new Promise((resolve, reject) => {
+      const data = import('./cities.json');
       if (data) {
-        return resolve(data);
+        resolve(data);
+        return;
       }
-      return reject('Ошибка получения данных о городах');
+      reject(new Error('Ошибка получения данных о городах'));
     });
-  }
 
-  postForm(form: any) {
+  public postForm(form: any) {
     console.log(form);
   }
 }

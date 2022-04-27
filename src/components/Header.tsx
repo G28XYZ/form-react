@@ -1,20 +1,20 @@
-import React, { MouseEvent, ChangeEvent } from 'react';
+import React, { ChangeEvent, useCallback } from 'react';
+import { useStore } from '../context/context';
 
-interface Props {
-  user: string;
-  tooltipText: string;
-  tooltipIsOpen: boolean;
-  handleClickStatus: (event: MouseEvent<HTMLElement>) => void;
-  handleChangeStatus: (event: ChangeEvent<HTMLInputElement>) => void;
-}
+export default function Header() {
+  const [state, dispatch] = useStore();
+  const { user, tooltip } = state;
 
-export default function Header({
-  user,
-  handleClickStatus,
-  tooltipText,
-  tooltipIsOpen,
-  handleChangeStatus,
-}: Props) {
+  const handleClickStatus = useCallback(() => {
+    dispatch({ type: 'TOGGLE_TOOLTIP' });
+  }, [tooltip]);
+
+  const handleChangeStatus = useCallback(
+    (e: ChangeEvent<HTMLInputElement>): void => {
+      dispatch({ type: 'SET_TOOLTIP', payload: e.target.value });
+    },
+    [tooltip],
+  );
   return (
     <div className="form__header">
       <h1 className="form__header-title">
@@ -22,16 +22,16 @@ export default function Header({
         <span className="form__header-user">
           {` ${user}`}
           <div className="form__header-tooltip">
-            <p className="form__header-tooltip-text">{tooltipText}</p>
+            <p className="form__header-tooltip-text">{tooltip.text}</p>
             <div
               className={`form__header-tooltip-change ${
-                tooltipIsOpen && 'form__header-tooltip-change_active'
+                tooltip.isOpen && 'form__header-tooltip-change_active'
               }`}
             >
               <input
                 type="text"
                 className="form__header-input"
-                value={tooltipText}
+                value={tooltip.text}
                 onChange={handleChangeStatus}
               />
               <button

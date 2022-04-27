@@ -1,25 +1,34 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useCallback } from 'react';
 import Input from './Input';
+import { useStore } from '../context/context';
 
-interface Data {
-  error: string;
-  value: string;
-}
+export default function Email() {
+  const [state, dispatch] = useStore();
+  const { inputs, checkInfo } = state;
 
-interface Props {
-  stateInputs: { [key: string]: Data };
-  handleChangeEmail: (event: ChangeEvent<HTMLInputElement>) => void;
-  checkInfo: boolean;
-  handleChangeCheckInfo: (event: ChangeEvent<HTMLInputElement>) => void;
-}
+  const handleChangeCheckInfo = useCallback(() => {
+    dispatch({ type: 'TOGGLE_CHECK_INFO' });
+  }, [checkInfo]);
 
-export default function Email({
-  stateInputs,
-  handleChangeEmail,
-  checkInfo,
-  handleChangeCheckInfo,
-}: Props) {
-  const { error } = stateInputs.email;
+  const handleChangeEmail = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const reg = /^\S+@\S+\.\S+$/;
+
+      const error = !reg.test(e.target.value) ? 'Неверный E-mail' : '';
+      dispatch({
+        type: 'SET_INPUTS',
+        payload: {
+          [e.target.name]: {
+            error: (e.target.validationMessage && 'Укажите E-mail') || error,
+            value: e.target.value,
+          },
+        },
+      });
+    },
+    [inputs],
+  );
+
+  const { error } = inputs.email;
   return (
     <div className="form__inputs">
       <Input

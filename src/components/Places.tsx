@@ -1,21 +1,33 @@
-import React, { MouseEvent } from 'react';
+import React, { MouseEvent, useCallback } from 'react';
 import Input from './Input';
+import { useStore } from '../context/context';
 
-interface Props {
-  cities: any;
-  universities: any;
-  handleClickDrop: (event: MouseEvent<HTMLInputElement>) => void;
-  handleClickPlace: (p: string, name: string) => void;
-  statePlace: any;
-}
+export default function Places() {
+  const [state, dispatch] = useStore();
+  const { cities, university, place } = state;
 
-export default function Places({
-  cities,
-  universities,
-  handleClickDrop,
-  statePlace,
-  handleClickPlace,
-}: Props) {
+  const handleClickPlace = useCallback(
+    (p: string, name: string): void => {
+      const placeObj = Object.assign(state.place)[p];
+      placeObj.name = name;
+      dispatch({ type: 'SET_PLACE', payload: { [p]: { ...placeObj } } });
+    },
+    [place],
+  );
+
+  const handleClickDrop = useCallback(
+    (e: MouseEvent<HTMLInputElement>): void => {
+      const target = e.target as HTMLTextAreaElement;
+      const placeObj = Object.assign(state.place)[target.name];
+      const toggle = { ...placeObj, isOpen: !placeObj.isOpen };
+      dispatch({
+        type: 'SET_PLACE',
+        payload: { [target.name]: { ...toggle } },
+      });
+    },
+    [place],
+  );
+
   return (
     <div className="form__inputs">
       <Input
@@ -31,12 +43,10 @@ export default function Places({
           className="form__input"
           readOnly
           onClick={handleClickDrop}
-          value={statePlace.city.name}
+          value={place.city.name}
         />
         <ul
-          className={`form__place ${
-            statePlace.city.isOpen && 'form__place_open'
-          }`}
+          className={`form__place ${place.city.isOpen && 'form__place_open'}`}
         >
           {cities.map(({ city }: any, i: number) => (
             <li
@@ -62,14 +72,14 @@ export default function Places({
           className="form__input"
           readOnly
           onClick={handleClickDrop}
-          value={statePlace.university.name}
+          value={place.university.name}
         />
         <ul
           className={`form__place ${
-            statePlace.university.isOpen && 'form__place_open'
+            place.university.isOpen && 'form__place_open'
           }`}
         >
-          {universities.map(({ name }: any, i: number) => (
+          {university.map(({ name }: any, i: number) => (
             <li
               key={i}
               onClick={() => handleClickPlace('university', name)}

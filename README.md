@@ -44,6 +44,11 @@ TYPESCRIPT
   <a target="_blank" rel="noopener noreferrer" href="https://github.com/github/explore/blob/main/topics/typescript/typescript.png?raw=true"><img src="https://github.com/github/explore/blob/main/topics/typescript/typescript.png?raw=true" alt="TypeScript" height="22" style="max-width: 100%;"></a>
 </li>
 
+  <li>
+ESLINT
+  <a target="_blank" rel="noopener noreferrer" href="https://github.com/github/explore/blob/main/topics/eslint/eslint.png?raw=true"><img src="https://github.com/github/explore/blob/main/topics/eslint/eslint.png?raw=true" alt="EsLint" height="22" style="max-width: 100%;"></a>
+</li>
+  
 </ul>
 
 ### Ссылка github pages - [Форма](https://g28xyz.github.io/form-react)

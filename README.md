@@ -46,7 +46,7 @@ TYPESCRIPT
 
 </ul>
 
-### Ссылка github pages - [Форма](https://g28xyz.github.io/form-reat)
+### Ссылка github pages - [Форма](https://g28xyz.github.io/form-react)
 
 ### Установка
 
